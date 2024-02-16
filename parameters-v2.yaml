@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  SSMParameter:
+    Description: SSM Parameter
+    Type: AWS::SSM::Parameter::Name
+    Default: secret-password
+
+Resources:
+  DemoResource:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      Tags:
+        - Key: "SSMParameter"
+          Value: !Ref SSMParameter
+
+
+
+
+
+

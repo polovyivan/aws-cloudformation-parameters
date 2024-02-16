@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  StringParameter:
+    Description: Simple String Parameter
+    Type: String
+    MinLength: '2'
+    MaxLength: '10'
+    Default: "Test"
+
+  StringParameterV2:
+    Description: Another Simple String Parameter With a List of Allowed Values
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - qa
+      - beta
+      - prod
+    ConstraintDescription: Use valid environment [dev, qa, beta, prod]
+
+  NumberParameter:
+    Description: Simple Number Parameter with a default value as 1 and a range from 1 to 100
+    Type: Number
+    Default: 99
+    MinValue: 1
+    MaxValue: 100
+
+  ListOfNumbersParameter:
+    Description: A list of numbers
+    Type: List<Number>
+    Default: 1, 2, 3
+
+  ComaDelimitedList:
+    Description: A comma delimited list
+    Type: CommaDelimitedList
+    Default: "A, B, C"
+
+  Password:
+    Description: Password. Never use it in production!!! It's just for testing purposes
+    NoEcho: true
+    Type: String
+
+  SpecificType:
+    Description: AWS Specific type
+    Type: AWS::EC2::AvailabilityZone::Name
+
+  SpecificTypeList:
+    Description: AWS Specific type list
+    Type: List<AWS::EC2::AvailabilityZone::Name>
+
+Resources:
+  DemoResource:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      Tags:
+        - Key: "StringParameter"
+          Value: !Ref StringParameter
+        - Key: "StringParameterV2"
+          Value: !Ref StringParameterV2
+        - Key: "NumberParameter"
+          Value: !Ref NumberParameter
+        - Key: "ListOfNumbersParameter"
+          Value: !Select [ 0, !Ref ListOfNumbersParameter ]
+        - Key: "ComaDelimitedList"
+          Value: !Select [ 1, !Ref ComaDelimitedList ]
+        - Key: "Password"
+          Value: !Ref Password
+        - Key: "SpecificType"
+          Value: !Ref SpecificType
+        - Key: "SpecificTypeList"
+          Value: !Select [ 2, !Ref SpecificTypeList ]
+
+
+
+
+
+
